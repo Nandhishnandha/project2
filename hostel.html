@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #aaa;
+            width: 400px;
+        }
+        h1, h2 { text-align: center; }
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover { background-color: #45a049; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #aaa;
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hostel Management System</h1>
+
+        <!-- Login Form -->
+        <div id="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+
+        <!-- Student Registration Form -->
+        <div id="registration-form" style="display:none;">
+            <h2>Register Student</h2>
+            <input type="text" id="name" placeholder="Name">
+            <input type="email" id="email" placeholder="Email">
+            <input type="text" id="phone" placeholder="Phone">
+            <input type="number" id="room" placeholder="Room Number">
+            <button onclick="registerStudent()">Register</button>
+
+            <h2>Registered Students</h2>
+            <table id="students-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Room</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Login function
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if(username === "admin" && password === "admin") {
+                alert("Login successful!");
+                document.getElementById('login-form').style.display = "none";
+                document.getElementById('registration-form').style.display = "block";
+                loadStudents();
+            } else {
+                alert("Invalid credentials");
+            }
+        }
+
+        // Register student
+        function registerStudent() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const room = document.getElementById('room').value;
+
+            if(!name || !email || !phone || !room) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            const id = students.length > 0 ? students[students.length-1].id + 1 : 1;
+            students.push({ id, name, email, phone, room });
+            localStorage.setItem('students', JSON.stringify(students));
+
+            alert("Student registered successfully!");
+            clearForm();
+            loadStudents();
+        }
+
+        // Load students to table
+        function loadStudents() {
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            const table = document.getElementById('students-table');
+
+            // Clear previous rows
+            table.innerHTML = `<tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Room</th>
+                <th>Action</th>
+            </tr>`;
+
+            students.forEach(s => {
+                const row = table.insertRow();
+                row.insertCell(0).innerText = s.id;
+                row.insertCell(1).innerText = s.name;
+                row.insertCell(2).innerText = s.email;
+                row.insertCell(3).innerText = s.phone;
+                row.insertCell(4).innerText = s.room;
+                row.insertCell(5).innerHTML = `<button onclick="deleteStudent(${s.id})">Delete</button>`;
+            });
+        }
+
+        // Delete student
+        function deleteStudent(id) {
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            students = students.filter(s => s.id !== id);
+            localStorage.setItem('students', JSON.stringify(students));
+            loadStudents();
+        }
+
+        // Clear input form
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('room').value = '';
+        }
+    </script>
+</body>
+</html>
