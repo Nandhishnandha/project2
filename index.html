@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hostel Admin Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <div class="error" id="error"></div>
+    </div>
+
+    <script>
+        function login() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
+
+            // Hardcoded credentials for demo
+            const adminUser = "pooja";
+            const adminPass = "pooja1234";
+
+            if(user === adminUser && pass === adminPass){
+                window.location.href = "dashboard.html";
+            } else {
+                document.getElementById("error").innerText = "Invalid username or password!";
+            }
+        }
+    </script>
+</body>
+</html>
