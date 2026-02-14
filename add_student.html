@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Student</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Student</h2>
+        <form id="studentForm">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="phone" placeholder="Phone" required>
+            <input type="text" id="department" placeholder="Department" required>
+            <input type="text" id="year" placeholder="Year" required>
+            <input type="text" id="room" placeholder="Room No" required>
+            <input type="text" id="fees" placeholder="Fees Status" required>
+            <button type="submit">Add Student</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById("studentForm");
+        form.addEventListener("submit", function(e){
+            e.preventDefault();
+
+            const student = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                department: document.getElementById("department").value,
+                year: document.getElementById("year").value,
+                room: document.getElementById("room").value,
+                fees: document.getElementById("fees").value
+            };
+
+            console.log("Student Added:", student); // For now, just JS log
+            document.getElementById("message").innerText = "Student added!!.";
+
+            // Reset form
+            form.reset();
+        });
+    </script>
+</body>
+</html>
